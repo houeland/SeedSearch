@@ -188,48 +188,49 @@ public class SeedResult {
         return true;
     }
 
-    public boolean reallyNoDamage() {
-        if (monsters.size() < 5) {
-            return false;
-        }
-        int count = 0;
-        ArrayList<AbstractCard> superEarlyCards = new ArrayList<>();
-        for (Reward reward : miscRewards) {
-            if (reward.floor < 6) {
-                superEarlyCards.addAll(reward.cards);
-            }
-        }
-        for (Reward reward : cardRewards) {
-            if (reward.floor < 6) {
-                superEarlyCards.addAll(reward.cards);
-            }
-        }
-        for (AbstractCard card : superEarlyCards) {
-            if (!noDamageCards.contains(card.cardID)) {
-                return false;
-            }
-        }
-        return true;
-    }
+    // public boolean reallyNoDamage() {
+    //     if (monsters.size() < 5) {
+    //         return false;
+    //     }
+    //     int count = 0;
+    //     ArrayList<AbstractCard> superEarlyCards = new ArrayList<>();
+    //     for (Reward reward : miscRewards) {
+    //         if (reward.floor < 6) {
+    //             superEarlyCards.addAll(reward.cards);
+    //         }
+    //     }
+    //     for (Reward reward : cardRewards) {
+    //         if (reward.floor < 6) {
+    //             superEarlyCards.addAll(reward.cards);
+    //         }
+    //     }
+    //     for (AbstractCard card : superEarlyCards) {
+    //         if (!noDamageCards.contains(card.cardID)) {
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+    // }
 
     public boolean noDamage() {
-        ArrayList<AbstractCard> superEarlyCards = new ArrayList<>();
+        int count = 0;
         for (Reward reward : miscRewards) {
             if (reward.floor < 6) {
-                superEarlyCards.addAll(reward.cards);
+                for (AbstractCard card : reward.cards) {
+                    if (damageCards.contains(card.cardID)) {
+                        count += 1;
+                    }
+                }
             }
         }
         for (Reward reward : cardRewards) {
             if (reward.floor < 6) {
-                superEarlyCards.addAll(reward.cards);
-            }
-        }
-        ArrayList<String> foundCards = new ArrayList<>();
-        int count = 0;
-        for(AbstractCard card : superEarlyCards) {
-            if(damageCards.contains(card.cardID)) {
-                count += 1;
-                foundCards.add(card.cardID);
+                for (AbstractCard card : reward.cards) {
+                    if (damageCards.contains(card.cardID)) {
+                        count += 1;
+                        break;
+                    }
+                }
             }
         }
         if(count > 1) {
@@ -240,9 +241,9 @@ public class SeedResult {
         }
     }
 
-    public boolean forcedMonsterFights() {
-        return monsters.size() > 4;
-    }
+    // public boolean forcedMonsterFights() {
+    //     return monsters.size() > 4;
+    // }
 
     public boolean testAct1Filters(SearchSettings settings) {
         if (!relics.containsAll(settings.requiredAct1Relics)) {
@@ -256,31 +257,27 @@ public class SeedResult {
         if (monsters.size() < 5) {
             return false;
         }
-        String first_monster = monsters.get(3);
-        if (!(first_monster.equals("Gremlin Gang") || first_monster.equals("Exordium Thugs") || first_monster.equals("Exordium Wildlife") || first_monster.equals("Large Slime"))) {
-            return false;
-        }
+        // String first_monster = monsters.get(3);
+        // if (!(first_monster.equals("Gremlin Gang") || first_monster.equals("Exordium Thugs") || first_monster.equals("Exordium Wildlife") || first_monster.equals("Large Slime"))) {
+        //     return false;
+        // }
 
         for (Reward reward : miscRewards) {
             if (reward.floor > 5) {
                 break;
             }
-            if (reward.potions.size() > 1) {
-                return false;
-            } else if (reward.potions.size() == 1) {
-                AbstractPotion potion = reward.potions.get(0);
+            for (AbstractPotion potion : reward.potions) {
                 if (!(potion.ID.equals(DexterityPotion.POTION_ID) || potion.ID.equals(SkillPotion.POTION_ID) || potion.ID.equals(SpeedPotion.POTION_ID) || potion.ID.equals(EnergyPotion.POTION_ID) || potion.ID.equals(GamblersBrew.POTION_ID) || potion.ID.equals(SwiftPotion.POTION_ID) || potion.ID.equals(ColorlessPotion.POTION_ID))) {
                     return false;
                 }
             }
         }
 
-        if (!(relics.get(0).equals(EternalFeather.ID) || relics.get(0).equals(BlackStar.ID) || relics.get(0).equals(WristBlade.ID) || relics.get(0).equals(HoveringKite.ID) || relics.get(0).equals(CallingBell.ID) || relics.get(0).equals(EmptyCage.ID) || relics.get(0).equals(SnakeRing.ID) || relics.get(0).equals(BustedCrown.ID))) {
+        if (!(relics.get(0).equals(EternalFeather.ID) || relics.get(0).equals(BlackStar.ID) || relics.get(0).equals(WristBlade.ID) || relics.get(0).equals(HoveringKite.ID) || relics.get(0).equals(CallingBell.ID) || relics.get(0).equals(EmptyCage.ID) || relics.get(0).equals(SnakeRing.ID) || relics.get(0).equals(BustedCrown.ID) || relics.get(0).equals(CoffeeDripper.ID) || relics.get(0).equals(CursedKey.ID) || relics.get(0).equals(Ectoplasm.ID) || relics.get(0).equals(BustedCrown.ID) || relics.get(0).equals(FusionHammer.ID) || relics.get(0).equals(PhilosopherStone.ID) || relics.get(0).equals(RunicDome.ID) || relics.get(0).equals(SacredBark.ID) || relics.get(0).equals(SlaversCollar.ID) || relics.get(0).equals(Sozu.ID) || relics.get(0).equals(VelvetChoker.ID))) {
             return false;
         }
 
         return noDamage();
-
     }
 
     private ArrayList<String> getAllCardIds() {

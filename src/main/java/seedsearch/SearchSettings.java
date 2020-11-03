@@ -21,8 +21,8 @@ public class SearchSettings {
 
     public int ascensionLevel = 20;
     public AbstractPlayer.PlayerClass playerClass = AbstractPlayer.PlayerClass.THE_SILENT;
-    public long startSeed = 20_687_182_354L;
-    public long endSeed = 20_687_182_454L;
+    public long startSeed = 20_650_000_000L;
+    public long endSeed = 20_700_000_000L;
     public boolean verbose = true;
     public boolean exitAfterSearch = false;
 

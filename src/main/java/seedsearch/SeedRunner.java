@@ -145,9 +145,9 @@ public class SeedRunner {
 //        return count == 1 && burning;
     }
 
-    private boolean runSeed(int neowChoice) {
-        return runSeed(neowChoice, false);
-    }
+    // private boolean runSeed(int neowChoice) {
+    //     return runSeed(neowChoice, false);
+    // }
 
     private boolean runSeed(int neowChoice, boolean swapChances) {
         if (!settings.speedrunPace) {
@@ -208,10 +208,10 @@ public class SeedRunner {
         return seedResult.testFinalFilters(settings);
     }
 
-    public boolean runSeed(long seed, int neowChoice) {
-        setSeed(seed);
-        return runSeed(neowChoice);
-    }
+    // public boolean runSeed(long seed, int neowChoice) {
+    //     setSeed(seed);
+    //     return runSeed(neowChoice);
+    // }
 
     public boolean runSeed(long seed, int neowChoice, boolean swapChances) {
         setSeed(seed);
