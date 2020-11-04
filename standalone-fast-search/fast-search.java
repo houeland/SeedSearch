@@ -301,7 +301,7 @@ abstract class AbstractRoom {
     public static boolean addPotionToRewards_V2_found_useful() {
         if (AbstractDungeon.potionRng.random(0, 99) < 40 + blizzardPotionMod) {
             String pot = AbstractDungeon.returnRandomPotion();
-            if (FastSearch.usefulPotion(pot)) return true;
+            if (FastSearch.usefulPotion__very_restricted(pot)) return true;
             blizzardPotionMod -= 10;
         } else {
             blizzardPotionMod += 10;
@@ -423,7 +423,7 @@ abstract class AbstractDungeon {
             if (!AbstractDungeon.rareCardPool.group.contains(c) && cardRng.randomBoolean(cardUpgradedChance)) {
                 throw new RuntimeException("Oops, can't handle upgraded rewards!");
             }
-            if (FastSearch.usefulCard(c)) return true;
+            if (FastSearch.usefulCard__very_restricted(c)) return true;
         }
         return false;
     }
@@ -431,7 +431,7 @@ abstract class AbstractDungeon {
 
 class FastSearch {
     // MANUALLY CONFIGURED! Some of these are not necessarily enough to survive
-    public static boolean usefulPotion(String name) {
+    public static boolean usefulPotion__very_restricted(String name) {
         switch(name) {
             case "Poison Potion": return true;
             case "CunningPotion": return true;
@@ -469,9 +469,47 @@ class FastSearch {
             default: throw new RuntimeException("potion not known: " + name);
         }
     }
+    public static boolean usefulPotion__lax(String name) {
+        switch(name) {
+            case "Poison Potion": return true;
+            case "CunningPotion": return true;
+            case "GhostInAJar": return false;
+            case "Block Potion": return false;
+            case "Dexterity Potion": return false;
+            case "Energy Potion": return false;
+            case "Explosive Potion": return false;
+            case "Fire Potion": return true;
+            case "Strength Potion": return true;
+            case "Swift Potion": return false;
+            case "Weak Potion": return false;
+            case "FearPotion": return true;
+            case "AttackPotion": return false;
+            case "SkillPotion": return false;
+            case "PowerPotion": return false;
+            case "ColorlessPotion": return false;
+            case "SteroidPotion": return true;
+            case "SpeedPotion": return false;
+            case "BlessingOfTheForge": return false;
+            case "Regen Potion": return false;
+            case "Ancient Potion": return false;
+            case "LiquidBronze": return false;
+            case "GamblersBrew": return false;
+            case "EssenceOfSteel": return false;
+            case "DuplicationPotion": return false;
+            case "DistilledChaos": return false;
+            case "LiquidMemories": return false;
+            case "CultistPotion": return true;
+            case "Fruit Juice": return false;
+            case "SneckoOil": return false;
+            case "FairyPotion": return false;
+            case "SmokeBomb": return true;
+            case "EntropicBrew": return true;
+            default: throw new RuntimeException("potion not known: " + name);
+        }
+    }
 
     // MANUALLY CONFIGURED! Some of these are not actually enough to survive
-    public static boolean usefulCard(String name) {
+    public static boolean usefulCard__very_restricted(String name) {
         switch(name) {
             case "Cloak And Dagger": return true;
             case "Underhanded Strike": return true;
@@ -546,7 +584,83 @@ class FastSearch {
             case "Venomology": return true;
             default: throw new RuntimeException("card not known: " + name);
         }
-    } 
+    }
+    public static boolean usefulCard__lax(String name) {
+        switch(name) {
+            case "Cloak And Dagger": return false;
+            case "Underhanded Strike": return false;
+            case "Deadly Poison": return true;
+            case "Dagger Spray": return false;
+            case "Bane": return false;
+            case "Blade Dance": return false;
+            case "Deflect": return false;
+            case "Dagger Throw": return false;
+            case "Poisoned Stab": return true;
+            case "Acrobatics": return false;
+            case "Quick Slash": return false;
+            case "Slice": return false;
+            case "Backflip": return false;
+            case "Outmaneuver": return false;
+            case "Prepared": return false;
+            case "PiercingWail": return false;
+            case "Sucker Punch": return false;
+            case "Dodge and Roll": return false;
+            case "Flying Knee": return false;
+            case "Crippling Poison": return false;
+            case "Leg Sweep": return false;
+            case "Catalyst": return false;
+            case "Tactician": return false;
+            case "Expertise": return false;
+            case "Choke": return true;
+            case "Caltrops": return false;
+            case "Blur": return false;
+            case "Setup": return false;
+            case "Endless Agony": return false;
+            case "Riddle With Holes": return false;
+            case "Skewer": return false;
+            case "Calculated Gamble": return false;
+            case "Escape Plan": return false;
+            case "Finisher": return true;
+            case "Well Laid Plans": return false;
+            case "Terror": return true;
+            case "Heel Hook": return false;
+            case "Noxious Fumes": return true;
+            case "Infinite Blades": return false;
+            case "Reflex": return false;
+            case "Eviscerate": return false;
+            case "Dash": return true;
+            case "Backstab": return false;
+            case "Bouncing Flask": return true;
+            case "Concentrate": return false;
+            case "Flechettes": return false;
+            case "Masterful Stab": return true;
+            case "Accuracy": return false;
+            case "Footwork": return false;
+            case "Distraction": return false;
+            case "All Out Attack": return true;
+            case "Predator": return true;
+            case "Grand Finale": return true;
+            case "A Thousand Cuts": return false;
+            case "Glass Knife": return true;
+            case "Storm of Steel": return false;
+            case "Bullet Time": return false;
+            case "After Image": return false;
+            case "Unload": return true;
+            case "Night Terror": return false;
+            case "Tools of the Trade": return false;
+            case "Wraith Form v2": return false;
+            case "Burst": return false;
+            case "Doppelganger": return false;
+            case "Envenom": return true;
+            case "Adrenaline": return false;
+            case "Die Die Die": return false;
+            case "Phantasmal Killer": return false;
+            case "Malaise": return false;
+            case "Corpse Explosion": return true;
+            case "Venomology": return false;
+            default: throw new RuntimeException("card not known: " + name);
+        }
+    }
 
     public static boolean checkPotions(Long seed) {
         AbstractDungeon.potionRng.random.setSeed(seed);
@@ -652,3 +766,75 @@ class SeedRangeResult implements Serializable {
         return "[" + min_seed_inclusive + "," + max_seed_inclusive + "]: " + interesting_seeds.size();
     }
 }
+
+
+// rng = new Random(Settings.seed);
+// opt1 = choose([THREE_CARDS, ONE_RANDOM_RARE_CARD, REMOVE_CARD, UPGRADE_CARD, TRANSFORM_CARD, RANDOM_COLORLESS]);
+// opt2 = choose([THREE_SMALL_POTIONS, RANDOM_COMMON_RELIC, TEN_PERCENT_HP_BONUS, THREE_ENEMY_KILL, HUNDRED_GOLD]);
+// opt3 = ...getRewardOptionWithDrawback()...
+// opt4 = BOSS_RELIC;
+
+// private ArrayList<NeowRewardDef> getRewardOptionWithDrawback() {
+//     drawback = choose([TEN_PERCENT_HP_LOSS, NO_GOLD, CURSE, PERCENT_DAMAGE])
+//     if CURSE then abort;
+//     add RANDOM_COLORLESS_2
+//     add REMOVE_TWO
+//     add ONE_RARE_RELIC
+//     add THREE_RARE_CARDS
+//     if (drawback != NO_GOLD) {
+//         add TWO_FIFTY_GOLD
+//     }
+//     add TRANSFORM_TWO_CARDS
+//     if (drawback != TEN_PERCENT_HP_LOSS) {
+//         add TWENTY_PERCENT_HP_BONUS
+//     }
+//     choose(added);
+// }
+
+// case TRANSFORM_CARD: { // neow rng
+//     AbstractDungeon.transformCard
+// }
+
+// case TRANSFORM_TWO_CARDS: { // neow rng
+//     AbstractDungeon.transformCard
+//     AbstractDungeon.transformCard
+// }
+
+// case CURSE: { // CARD RNG!
+//     for (Map.Entry<String, AbstractCard> c : curses.entrySet()) {
+//         if (c.getValue().cardID.equals("AscendersBane") || c.getValue().cardID.equals("Necronomicurse") || c.getValue().cardID.equals("CurseOfTheBell") || c.getValue().cardID.equals("Pride")) continue;
+//         tmp.add(c.getKey());
+//     }
+//     return cards.get(tmp.get(AbstractDungeon.cardRng.random(0, tmp.size() - 1)));
+// }
+
+// case RANDOM_COLORLESS_2: { // CARD RNG!
+//     getColorlessRewardCards(true)
+// }
+// case RANDOM_COLORLESS: { // CARD RNG!
+//     getColorlessRewardCards(false)
+// }
+// case THREE_RARE_CARDS: { // neow rng
+//     getRewardCards(true)
+// }
+
+// case ONE_RANDOM_RARE_CARD: { // neow rng
+//     AbstractDungeon.getCard(RARE)
+// }
+// case RANDOM_COMMON_RELIC: { // grab from preshuffled list
+//     AbstractDungeon.returnRandomRelic(COMMON);
+// }
+// case ONE_RARE_RELIC: { // grab from preshuffled list
+//     AbstractDungeon.returnRandomRelic(RARE);
+// }
+// case BOSS_RELIC: { // grab from preshuffled list
+//     AbstractDungeon.returnRandomRelic(BOSS);
+// }
+// case THREE_CARDS: { // neow rng
+//     this.getRewardCards(false);
+// }
+// case THREE_SMALL_POTIONS: { // POTION RNG!
+//     for (int i = 0; i < 3; ++i) {
+//         PotionHelper.getRandomPotion();
+//     }
+// }

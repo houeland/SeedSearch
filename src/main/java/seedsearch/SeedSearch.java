@@ -36,7 +36,9 @@ public class SeedSearch {
         }
 
         int processed_seeds = 0;
-        for (long seed : seeds_to_explore) {
+        long[] hardcoded_seeds = new long[]{211401998960L,272842589005L,404809993290L,521370285977L,592377225976L,758532933949L};
+        // for (long seed : seeds_to_explore) {
+        for (long seed : hardcoded_seeds) {
             if (processed_seeds % 1000 == 0) {
                 System.out.println(String.format("Doing seed: %d -> %d", processed_seeds, seed));
             }

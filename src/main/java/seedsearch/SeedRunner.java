@@ -121,7 +121,7 @@ public class SeedRunner {
     private boolean mapIsIntractable(ArrayList<ArrayList<MapRoomNode>> map) {
         int count = 0;
         boolean burning = false;
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < 7; i++) {
             for(int j = 0; j < 7; j++) {
                 if(map.get(i).get(j).room instanceof ShopRoom) {
                     return false;
@@ -135,6 +135,19 @@ public class SeedRunner {
                     return false;
                 } else {
                     if (map.get(5).get(j).hasEmeraldKey) {
+                        burning = true;
+                    }
+                    count += 1;
+                }
+            }
+        }
+        for(int j = 0; j < 7; j++) {
+            if(map.get(7).get(j).hasEdges()) {
+                AbstractRoom room = map.get(7).get(j).room;
+                if (!(room instanceof MonsterRoomElite)) {
+                    return false;
+                } else {
+                    if (map.get(7).get(j).hasEmeraldKey) {
                         burning = true;
                     }
                     count += 1;
@@ -531,7 +544,7 @@ public class SeedRunner {
     private void runPath(ArrayList<MapRoomNode> path) {
         for(actFloor = 0; actFloor < path.size(); actFloor++) {
             AbstractDungeon.floorNum += 1;
-            if (AbstractDungeon.floorNum > 6) {
+            if (AbstractDungeon.floorNum > 8) {
                 break;
             }
             AbstractDungeon.miscRng = new Random(currentSeed + (long)AbstractDungeon.floorNum);

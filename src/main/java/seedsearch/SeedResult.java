@@ -64,7 +64,7 @@ public class SeedResult {
         damageCards = new ArrayList<>();
         damageCards.add("Dagger Spray");
         damageCards.add("Dagger Throw");
-        damageCards.add(DeadlyPoison.ID);
+        // damageCards.add(DeadlyPoison.ID);
         damageCards.add(FlyingKnee.ID);
         damageCards.add(PoisonedStab.ID);
         damageCards.add(QuickSlash.ID);
@@ -72,21 +72,21 @@ public class SeedResult {
         //damageCards.add(SuckerPunch.ID);
         damageCards.add(AllOutAttack.ID);
         damageCards.add(Backstab.ID);
-        damageCards.add(BouncingFlask.ID);
+        // damageCards.add(BouncingFlask.ID);
         //damageCards.add(Choke.ID);
         damageCards.add(CripplingPoison.ID);
         damageCards.add(Dash.ID);
         //damageCards.add(EndlessAgony.ID);
         damageCards.add(Finisher.ID);
         damageCards.add(Flechettes.ID);
-        damageCards.add(MasterfulStab.ID);
-        damageCards.add(NoxiousFumes.ID);
+        // damageCards.add(MasterfulStab.ID);
+        // damageCards.add(NoxiousFumes.ID);
         damageCards.add(Predator.ID);
         damageCards.add(RiddleWithHoles.ID);
         damageCards.add(Skewer.ID);
         damageCards.add(Terror.ID);
-        damageCards.add(Unload.ID);
-        damageCards.add(DieDieDie.ID);
+        // damageCards.add(Unload.ID);
+        // damageCards.add(DieDieDie.ID);
         damageCards.add(CorpseExplosion.ID);
     }
 
@@ -164,88 +164,47 @@ public class SeedResult {
     }
 
     public boolean testFinalFilters(SearchSettings settings) {
-        if(numCombats > settings.maximumCombats) {
-            return false;
-        }
-        if(numCombats < settings.minimumCombats) {
-            return false;
-        }
-        if(numElites > settings.maximumElites) {
-            return false;
-        }
-        if(numElites < settings.minimumElites) {
-            return false;
-        }
-        if (!events.containsAll(settings.requiredEvents)) {
-            return false;
-        }
-        if (!relics.containsAll(settings.requiredRelics)) {
-            return false;
-        }
-        if (!monsters.containsAll(settings.requiredCombats)) {
-            return false;
-        }
         return true;
     }
 
-    // public boolean reallyNoDamage() {
-    //     if (monsters.size() < 5) {
-    //         return false;
-    //     }
-    //     int count = 0;
-    //     ArrayList<AbstractCard> superEarlyCards = new ArrayList<>();
-    //     for (Reward reward : miscRewards) {
-    //         if (reward.floor < 6) {
-    //             superEarlyCards.addAll(reward.cards);
-    //         }
-    //     }
-    //     for (Reward reward : cardRewards) {
-    //         if (reward.floor < 6) {
-    //             superEarlyCards.addAll(reward.cards);
-    //         }
-    //     }
-    //     for (AbstractCard card : superEarlyCards) {
-    //         if (!noDamageCards.contains(card.cardID)) {
-    //             return false;
-    //         }
-    //     }
-    //     return true;
-    // }
+    public int cardStrength(AbstractCard card) {
+        if (noDamageCards.contains(card.cardID)) {
+            return 0;
+        } else if (damageCards.contains(card.cardID)) {
+            return 1;
+        } else {
+            return 10;
+        }
+    }
 
     public boolean noDamage() {
         int count = 0;
         for (Reward reward : miscRewards) {
             if (reward.floor < 6) {
                 for (AbstractCard card : reward.cards) {
-                    if (damageCards.contains(card.cardID)) {
-                        count += 1;
-                    }
+                    count += cardStrength(card);
                 }
             }
         }
         for (Reward reward : cardRewards) {
             if (reward.floor < 6) {
+                int best = 0;
                 for (AbstractCard card : reward.cards) {
-                    if (damageCards.contains(card.cardID)) {
-                        count += 1;
-                        break;
-                    }
+                    int v = cardStrength(card);
+                    if (v > best) best = v;
                 }
+                count += best;
             }
         }
-        if(count > 1) {
+        if(count > 3) {
             return false;
         } else {
-            // System.out.println(foundCards);
             return true;
         }
     }
 
-    // public boolean forcedMonsterFights() {
-    //     return monsters.size() > 4;
-    // }
-
     public boolean testAct1Filters(SearchSettings settings) {
+        if (2>1) return true;
         if (!relics.containsAll(settings.requiredAct1Relics)) {
             return false;
         }
@@ -254,11 +213,7 @@ public class SeedResult {
             return false;
         }
 
-        if (monsters.size() < 5) {
-            return false;
-        }
-        // String first_monster = monsters.get(3);
-        // if (!(first_monster.equals("Gremlin Gang") || first_monster.equals("Exordium Thugs") || first_monster.equals("Exordium Wildlife") || first_monster.equals("Large Slime"))) {
+        // if (monsters.size() < 5) {
         //     return false;
         // }
 
